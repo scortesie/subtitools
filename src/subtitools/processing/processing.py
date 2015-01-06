@@ -7,6 +7,7 @@
 #                     /home/santiago/Desktop/sherlock_01x02-hidden-25.srt
 
 import sys
+import os
 import argparse
 import random
 import re
@@ -27,8 +28,8 @@ class NaiveProcessor(Processor):
     def __init__(self, hide_percentage):
         super(NaiveProcessor, self).__init__(hide_percentage)
     
-    def hide_words_in_line(self, text):
-        return ' '.join([re.sub('.', '_', word) if random.random() < self.hide_percentage * 0.01 and '<' not in word else word for word in text.split()]) + '\n'
+    def hide_words(self, text):
+        return ' '.join([re.sub('.', '_', word) if random.random() < self.hide_percentage * 0.01 and '<' not in word else word for word in text.split()])
 
     def process(self, input):
         state = self.ID
@@ -44,7 +45,7 @@ class NaiveProcessor(Processor):
                 state = self.TEXT
                 continue
             elif state == self.TEXT:
-                processed_line = self.hide_words_in_line(line)
+                processed_line = self.hide_words(line.rstrip()) + os.linesep
                 yield processed_line
                 continue
             elif state == self.END:
