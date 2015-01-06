@@ -30,28 +30,27 @@ class NaiveProcessor(Processor):
     def hide_words_in_line(self, text):
         return ' '.join([re.sub('.', '_', word) if random.random() < self.hide_percentage * 0.01 and '<' not in word else word for word in text.split()]) + '\n'
 
-    def process(self, input, output):
+    def process(self, input):
         state = self.ID
         for line in input:
             if len(line) == 0 or line.strip() == '':
                 state = self.END
             if state == self.ID:
-                output.write(line)
+                yield line
                 state = self.TIME
                 continue
             elif state == self.TIME:
-                output.write(line)
+                yield line
                 state = self.TEXT
                 continue
             elif state == self.TEXT:
                 processed_line = self.hide_words_in_line(line)
-                output.write(processed_line)
+                yield processed_line
                 continue
             elif state == self.END:
-                output.write(line)
+                yield line
                 state = self.ID
                 continue
-        return 0
 
 
 def main():
@@ -65,7 +64,7 @@ def main():
     input = args.input
     output = args.output
     hide_percentage = args.percentage
-  
+
     if input != sys.stdin:
         try:
             input = open(input, "r")
@@ -76,8 +75,10 @@ def main():
         output = open(output, "w")
   
     processor = NaiveProcessor(hide_percentage)
-    status = processor.process(input, output)
-    sys.exit(status)
+    for line in processor.process(input):
+        output.write(line)
+
+    sys.exit(0)
 
 
 if __name__ == "__main__":
