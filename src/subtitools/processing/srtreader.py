@@ -31,12 +31,12 @@ logger.addHandler(logging.NullHandler())
 
 class SrtReader(object):
     def __init__(self, srt_file_path):
-        self.str_file_path = srt_file_path
-        self.str_file = open(self.str_file_path, 'r')
+        self.srt_file_path = srt_file_path
+        self.srt_file = open(self.srt_file_path, 'r')
         self.re_timestamps = re.compile('^(\d\d[:]\d\d[:]\d\d,\d\d\d)[ ][-][-][>][ ](\d\d[:]\d\d[:]\d\d[,]\d\d\d)$')
 
     def read_identifier(self):
-        line_identifier = self.str_file.readline()
+        line_identifier = self.srt_file.readline()
         if line_identifier == '':
             raise EOFError("Unexpected end of file")
         try:
@@ -46,23 +46,23 @@ class SrtReader(object):
         return identifier
 
     def read_timestamps(self):
-        line_timestamps = self.str_file.readline()
+        line_timestamps = self.srt_file.readline()
         match_timestamps = self.re_timestamps.search(line_timestamps)
         if match_timestamps is None:
             raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_TIMESTAMPS_FORMAT)
         return match_timestamps.groups()
 
     def read_text(self):
-        line_text = self.str_file.readline()
+        line_text = self.srt_file.readline()
         if line_text in ('\n', ''):
             raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_TEXT_MUST_HAVE_ONE_LINE)
         text = line_text
-        line_text = self.str_file.readline()
+        line_text = self.srt_file.readline()
         while line_text != '\n':
             if line_text == '':
                 raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_SUBTITLE_MUST_END_WITH_NEWLINE)
             text += line_text
-            line_text = self.str_file.readline()
+            line_text = self.srt_file.readline()
         return text
 
     def read_next_subtitle(self):
@@ -71,3 +71,13 @@ class SrtReader(object):
         subtitle.timestamp_begin, subtitle.timestamp_end = self.read_timestamps()
         subtitle.text = self.read_text()
         return subtitle
+
+    def read_file(self):
+        subtitles = []
+        self.srt_file.seek(0)
+        while True:
+            try:
+                subtitles.append(self.read_next_subtitle())
+            except EOFError:
+                break
+        return subtitles
