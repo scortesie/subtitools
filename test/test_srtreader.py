@@ -1,8 +1,13 @@
 import os
+import logging
 import unittest
 
 from src.subtitools.processing.srtreader import SrtReader
 from src.subtitools.processing.exceptions import InvalidSrtFormatError
+from src.subtitools.processing.subtitle import Subtitle
+
+logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 class SrtReaderTestCase(unittest.TestCase):
@@ -59,3 +64,11 @@ class SrtReaderTestCase(unittest.TestCase):
         reader = SrtReader(self.file_srt_invalid_subtitle_ends_without_newline)
         with self.assertRaises(InvalidSrtFormatError):
             reader.read_next_subtitle()
+
+    def test_should_read_file(self):
+        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'I heard you.\n')
+        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', 'Anyway, time to go and\nbe Sherlock Holmes.\n')
+        subtitles_reference = [subtitle_1, subtitle_2]
+        reader = SrtReader(self.file_srt_2_subtitles_path)
+        subtitles = reader.read_file()
+        self.assertEqual(subtitles_reference, subtitles)
