@@ -12,11 +12,15 @@ class SrtReaderTestCase(unittest.TestCase):
         self.file_srt_2_subtitles_path = os.path.join(self.data_path, 'srt-2_subtitles.srt')
         self.file_srt_invalid_identifier = os.path.join(self.data_path, 'srt-invalid_identifier.srt')
         self.file_srt_invalid_timestamps = os.path.join(self.data_path, 'srt-invalid_timestamps.srt')
+        self.file_srt_invalid_text_has_no_lines = os.path.join(self.data_path, 'srt-invalid_text_has_no_lines.srt')
+        self.file_srt_invalid_text_is_eof = os.path.join(self.data_path, 'srt-invalid_text_is_eof.srt')
+        self.file_srt_invalid_subtitle_ends_without_newline = os.path.join(
+            self.data_path, 'srt-invalid_subtitle_ends_without_newline.srt')
 
     def tearDown(self):
         pass
 
-    def test_read_next(self):
+    def test_should_read_next_subtitle_containing_1_line_text_and_next_subtitle_containing_2_lines_text(self):
         reader = SrtReader(self.file_srt_2_subtitles_path)
 
         subtitle = reader.read_next_subtitle()
@@ -31,12 +35,27 @@ class SrtReaderTestCase(unittest.TestCase):
         self.assertEqual(subtitle.timestamp_end, '01:24:17,900')
         self.assertEqual(subtitle.text, 'Anyway, time to go and\nbe Sherlock Holmes.\n')
 
-    def test_read_next_invalid_identifier(self):
+    def test_should_raise_invalid_format_error_when_reading_next_subtitle_with_invalid_identifier(self):
         reader = SrtReader(self.file_srt_invalid_identifier)
         with self.assertRaises(InvalidSrtFormatError):
             reader.read_next_subtitle()
 
-    def test_read_next_invalid_timestamps(self):
+    def test_should_raise_invalid_format_error_when_reading_next_subtitle_with_invalid_timestamps(self):
         reader = SrtReader(self.file_srt_invalid_timestamps)
+        with self.assertRaises(InvalidSrtFormatError):
+            reader.read_next_subtitle()
+
+    def test_should_raise_invalid_format_error_when_reading_next_subtitle_with_invalid_text_has_no_lines(self):
+        reader = SrtReader(self.file_srt_invalid_text_has_no_lines)
+        with self.assertRaises(InvalidSrtFormatError):
+            reader.read_next_subtitle()
+
+    def test_should_raise_invalid_format_error_when_reading_next_subtitle_with_invalid_text_is_eof(self):
+        reader = SrtReader(self.file_srt_invalid_text_is_eof)
+        with self.assertRaises(InvalidSrtFormatError):
+            reader.read_next_subtitle()
+
+    def test_should_raise_invalid_format_error_when_reading_next_subtitle_ends_without_newline(self):
+        reader = SrtReader(self.file_srt_invalid_subtitle_ends_without_newline)
         with self.assertRaises(InvalidSrtFormatError):
             reader.read_next_subtitle()
