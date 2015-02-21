@@ -16,7 +16,7 @@ class TunerTestCase(unittest.TestCase):
         if os.path.isfile(self.file_output_1_path):
             os.remove(self.file_output_1_path)
 
-    def test_tune_with_hide_text_filter(self):
+    def test_should_generate_output_file_with_hide_text_filter(self):
         tuner = Tuner()
         tuner.add_filter(HideTextFilter(25))
         with open(self.file_srt_sherlock_path, 'r') as file_srt_sherlock,\
