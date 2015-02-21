@@ -26,6 +26,7 @@ from subtitle import Subtitle
 from exceptions import InvalidSrtFormatError
 
 logger = logging.getLogger(__name__)
+logger.addHandler(logging.NullHandler())
 
 
 class SrtReader(object):
@@ -53,9 +54,13 @@ class SrtReader(object):
 
     def read_text(self):
         line_text = self.str_file.readline()
+        if line_text in ('\n', ''):
+            raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_TEXT_MUST_HAVE_ONE_LINE)
         text = line_text
         line_text = self.str_file.readline()
         while line_text != '\n':
+            if line_text == '':
+                raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_SUBTITLE_MUST_END_WITH_NEWLINE)
             text += line_text
             line_text = self.str_file.readline()
         return text
