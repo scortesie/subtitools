@@ -1,3 +1,8 @@
+import re
+
+from src.subtitools.processing.subtitle import Subtitle
+
+
 class Filter(object):
     def __init__(self):
         pass
@@ -9,7 +14,26 @@ class Filter(object):
 class HideTextFilter(Filter):
     def __init__(self, percentage_to_hide):
         Filter.__init__(self)
-        self.percentage_to_hide = percentage_to_hide
+        self.re_word = re.compile('\w+')
+        self.percentage_to_hide = int(percentage_to_hide)
+        if self.percentage_to_hide not in range(1, 101):
+            raise ValueError("Percentage must be a number between 1 and 100")
+
+    def hide_word(self, word):
+        return '_' * len(word)
 
     def filter(self, subtitle):
-        pass
+        subtitle_text_filtered = ''
+        text_current_char_index = 0
+        text_current_word_position = 0
+        for match in self.re_word.finditer(subtitle.text):
+            text_current_word_str = match.group()
+            text_current_word_span = match.span()
+            subtitle_text_filtered += subtitle.text[text_current_char_index:text_current_word_span[0]]
+            if text_current_word_position % int(100 / self.percentage_to_hide) == 0:
+                text_current_word_str = self.hide_word(text_current_word_str)
+            subtitle_text_filtered += text_current_word_str
+            text_current_char_index = text_current_word_span[1]
+            text_current_word_position += 1
+        subtitle_text_filtered += subtitle.text[text_current_char_index:]
+        return Subtitle(subtitle.identifier, subtitle.timestamp_begin, subtitle.timestamp_end, subtitle_text_filtered)
