@@ -72,12 +72,13 @@ class SrtReader(object):
         subtitle.text = self.read_text()
         return subtitle
 
-    def read_file(self):
-        subtitles = []
-        self.srt_file.seek(0)
+    def read_next_subtitles(self):
         while True:
             try:
-                subtitles.append(self.read_next_subtitle())
+                yield self.read_next_subtitle()
             except EOFError:
-                break
-        return subtitles
+                return
+
+    def read_subtitles(self):
+        self.srt_file.seek(0)
+        return [subtitle for subtitle in self.read_next_subtitles()]
