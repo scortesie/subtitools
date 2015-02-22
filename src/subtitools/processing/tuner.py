@@ -1,14 +1,19 @@
-from src.subtitools.processing.subtitle import Subtitle
+from src.subtitools.processing.srtreader import SrtReader
 
 
 class Tuner(object):
     def __init__(self):
         self.filters = []
 
-    def add_filter(self, filter_to_add):
-        self.filters.append(filter_to_add)
+    def add_filter(self, tuning_filter):
+        self.filters.append(tuning_filter)
 
-    def tune(self, subtitles_input_file):
-        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', '_ heard you.\n')
-        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', '______, time to go ___\nbe Sherlock Holmes.\n')
-        return [subtitle_1, subtitle_2]
+    def tune(self, subtitles_file_path):
+        subtitles_tuned = []
+        srt_reader = SrtReader(subtitles_file_path)
+        for subtitle in srt_reader.read_subtitles():
+            subtitle_tuned = subtitle
+            for tuning_filter in self.filters:
+                subtitle_tuned = tuning_filter.filter(subtitle_tuned)
+            subtitles_tuned.append(subtitle_tuned)
+        return subtitles_tuned
