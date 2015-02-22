@@ -1,3 +1,4 @@
+# coding=utf-8
 import os
 import logging
 import unittest
@@ -15,6 +16,7 @@ class SrtReaderTestCase(unittest.TestCase):
         self.test_path = os.path.dirname(os.path.realpath(__file__))
         self.data_path = os.path.join(self.test_path, 'data')
         self.file_srt_2_subtitles_path = os.path.join(self.data_path, 'srt-2_subtitles.srt')
+        self.file_srt_2_subtitles_utf8_path = os.path.join(self.data_path, 'srt-2_subtitles_utf8.srt')
         self.file_srt_invalid_identifier = os.path.join(self.data_path, 'srt-invalid_identifier.srt')
         self.file_srt_invalid_timestamps = os.path.join(self.data_path, 'srt-invalid_timestamps.srt')
         self.file_srt_invalid_text_has_no_lines = os.path.join(self.data_path, 'srt-invalid_text_has_no_lines.srt')
@@ -70,5 +72,13 @@ class SrtReaderTestCase(unittest.TestCase):
         subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', 'Anyway, time to go and\nbe Sherlock Holmes.\n')
         subtitles_reference = [subtitle_1, subtitle_2]
         reader = SrtReader(self.file_srt_2_subtitles_path)
+        subtitles = reader.read_subtitles()
+        self.assertEqual(subtitles_reference, subtitles)
+
+    def test_should_read_subtitles_utf8(self):
+        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'Te escuché.\n')
+        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', '¡Qué más da, es hora de\nser Sherlock Holmes!\n')
+        subtitles_reference = [subtitle_1, subtitle_2]
+        reader = SrtReader(self.file_srt_2_subtitles_utf8_path)
         subtitles = reader.read_subtitles()
         self.assertEqual(subtitles_reference, subtitles)
