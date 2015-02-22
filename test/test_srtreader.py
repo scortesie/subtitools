@@ -65,10 +65,10 @@ class SrtReaderTestCase(unittest.TestCase):
         with self.assertRaises(InvalidSrtFormatError):
             reader.read_next_subtitle()
 
-    def test_should_read_file(self):
+    def test_should_read_subtitles(self):
         subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'I heard you.\n')
         subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', 'Anyway, time to go and\nbe Sherlock Holmes.\n')
         subtitles_reference = [subtitle_1, subtitle_2]
         reader = SrtReader(self.file_srt_2_subtitles_path)
-        subtitles = reader.read_file()
+        subtitles = reader.read_subtitles()
         self.assertEqual(subtitles_reference, subtitles)
