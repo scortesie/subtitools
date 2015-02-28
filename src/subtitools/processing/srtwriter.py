@@ -13,7 +13,7 @@ class SrtWriter(object):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.srt_file.close()
+        self.close()
 
     def write_subtitle(self, subtitle):
         self.srt_file.write(str(subtitle))
