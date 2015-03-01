@@ -30,9 +30,11 @@ logger.addHandler(logging.NullHandler())
 
 
 class SrtReader(object):
-    def __init__(self, srt_file_path):
-        self.srt_file_path = srt_file_path
-        self.srt_file = open(self.srt_file_path, 'r')
+    def __init__(self, srt_file):
+        if type(srt_file) is str:
+            self.srt_file = open(srt_file, 'r')
+        else:
+            self.srt_file = srt_file
         self.re_timestamps = re.compile('^(\d\d[:]\d\d[:]\d\d,\d\d\d)[ ][-][-][>][ ](\d\d[:]\d\d[:]\d\d[,]\d\d\d)$')
 
     def __enter__(self):
@@ -52,22 +54,23 @@ class SrtReader(object):
         return identifier
 
     def read_timestamps(self):
-        line_timestamps = self.srt_file.readline()
+        line_timestamps = self.srt_file.readline().rstrip()
         match_timestamps = self.re_timestamps.search(line_timestamps)
         if match_timestamps is None:
+            logger.debug("line_timestamps: " + line_timestamps)
             raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_TIMESTAMPS_FORMAT)
         return match_timestamps.groups()
 
     def read_text(self):
         line_text = self.srt_file.readline()
-        if line_text in ('\n', ''):
+        if line_text in ('\n', '\r', '\r\n', ''):
             raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_TEXT_MUST_HAVE_ONE_LINE)
-        text = line_text
+        text = line_text.rstrip() + '\n'
         line_text = self.srt_file.readline()
-        while line_text != '\n':
+        while line_text not in ('\n', '\r', '\r\n'):
             if line_text == '':
                 raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_SUBTITLE_MUST_END_WITH_NEWLINE)
-            text += line_text
+            text += line_text.rstrip() + '\n'
             line_text = self.srt_file.readline()
         return text
 
