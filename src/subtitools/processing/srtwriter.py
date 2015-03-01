@@ -5,9 +5,11 @@ logger.addHandler(logging.NullHandler())
 
 
 class SrtWriter(object):
-    def __init__(self, srt_file_path):
-        self.srt_file_path = srt_file_path
-        self.srt_file = open(self.srt_file_path, 'w')
+    def __init__(self, srt_file):
+        if type(srt_file) is str:
+            self.srt_file = open(srt_file, 'w')
+        else:
+            self.srt_file = srt_file
 
     def __enter__(self):
         return self
