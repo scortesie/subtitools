@@ -27,4 +27,8 @@ def tune_subtitles():
     writer.write_subtitles(subtitles_tuned)
     file_srt_tuned.seek(0)
 
-    return flask.send_file(file_srt_tuned, attachment_filename=file_srt_to_tune.filename, as_attachment=True)
+    return flask.send_file(file_srt_tuned, mimetype='text/plain',
+                           attachment_filename=file_srt_to_tune.filename, as_attachment=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)
