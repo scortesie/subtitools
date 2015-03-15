@@ -1,0 +1,22 @@
+html
+{
+    font-family: arial;
+}
+
+p
+{
+    text-align: center;
+    font-size: x-large;
+}
+
+div.error_msg
+{
+    text-align: center;
+    color: red;
+}
+
+div.form_field
+{
+    width: 100px;
+    margin: 10px auto 10px auto;
+}
