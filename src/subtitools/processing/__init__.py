@@ -1,0 +1,1 @@
+from srtreader import SrtReader
