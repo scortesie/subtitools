@@ -30,11 +30,12 @@ logger.addHandler(logging.NullHandler())
 
 
 class SrtReader(object):
-    def __init__(self, srt_file):
+    def __init__(self, srt_file, apply_strict_parsing=False):
         if type(srt_file) is str:
             self.srt_file = open(srt_file, 'r')
         else:
             self.srt_file = srt_file
+        self.apply_strict_parsing = apply_strict_parsing
         self.re_timestamps = re.compile('^(\d\d[:]\d\d[:]\d\d,\d\d\d)[ ][-][-][>][ ](\d\d[:]\d\d[:]\d\d[,]\d\d\d)$')
 
     def __enter__(self):
@@ -50,7 +51,13 @@ class SrtReader(object):
         try:
             identifier = int(line_identifier)
         except ValueError:
-            raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_IDENTIFIER_MUST_BE_INTEGER)
+            if self.apply_strict_parsing:
+                raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_IDENTIFIER_MUST_BE_INTEGER)
+            else:
+                if line_identifier in ('\n', '\r', '\r\n'):
+                    identifier = self.read_identifier()
+                else:
+                    raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_IDENTIFIER_MUST_BE_INTEGER)
         return identifier
 
     def read_timestamps(self):
@@ -63,8 +70,14 @@ class SrtReader(object):
 
     def read_text(self):
         line_text = self.srt_file.readline()
-        if line_text in ('\n', '\r', '\r\n', ''):
+        if line_text == '':
             raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_TEXT_MUST_HAVE_ONE_LINE)
+        elif line_text in ('\n', '\r', '\r\n'):
+            if self.apply_strict_parsing:
+                raise InvalidSrtFormatError(InvalidSrtFormatError.MSG_TEXT_MUST_HAVE_ONE_LINE)
+            else:
+                logger.warning("The subtitle text is empty")
+                return line_text
         text = line_text.rstrip() + '\n'
         line_text = self.srt_file.readline()
         while line_text not in ('\n', '\r', '\r\n'):
@@ -81,6 +94,15 @@ class SrtReader(object):
         subtitle.text = self.read_text()
         return subtitle
 
+    def __iter__(self):
+        return self
+
+    def next(self):
+        try:
+            return self.read_next_subtitle()
+        except EOFError:
+            raise StopIteration()
+
     def read_next_subtitles(self):
         while True:
             try:
@@ -90,7 +112,7 @@ class SrtReader(object):
 
     def read_subtitles(self):
         self.srt_file.seek(0)
-        return [subtitle for subtitle in self.read_next_subtitles()]
+        return [subtitle for subtitle in self]
 
     def close(self):
         self.srt_file.close()
