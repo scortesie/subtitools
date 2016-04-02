@@ -19,6 +19,7 @@ class SrtWriter(object):
 
     def write_subtitle(self, subtitle):
         self.srt_file.write(str(subtitle))
+        self.srt_file.write('\n')
 
     def write_subtitles(self, subtitles):
         for subtitle in subtitles:

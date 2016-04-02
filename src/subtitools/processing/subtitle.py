@@ -11,10 +11,10 @@ class Subtitle(object):
         self.text = text
 
     def __str__(self):
-        return '{0}\n{1} --> {2}\n{3}\n'.format(str(self.identifier),
-                                                str(self.timestamp_begin),
-                                                str(self.timestamp_end),
-                                                str(self.text))
+        return '{0}\n{1} --> {2}\n{3}'.format(str(self.identifier),
+                                              str(self.timestamp_begin),
+                                              str(self.timestamp_end),
+                                              str(self.text))
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
