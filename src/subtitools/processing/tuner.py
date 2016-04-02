@@ -1,4 +1,4 @@
-from src.subtitools.processing.srtreader import SrtReader
+from subtitools.processing.srtreader import SrtReader
 
 
 class Tuner(object):

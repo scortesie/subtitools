@@ -2,9 +2,9 @@
 import os
 import logging
 import unittest
-from src.subtitools.processing.srtreader import SrtReader
-from src.subtitools.processing.srtwriter import SrtWriter
-from src.subtitools.processing.subtitle import Subtitle
+from subtitools.processing.srtreader import SrtReader
+from subtitools.processing.srtwriter import SrtWriter
+from subtitools.processing.subtitle import Subtitle
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())

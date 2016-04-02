@@ -2,9 +2,9 @@ import os
 import logging
 import unittest
 
-from src.subtitools.processing.filter import HideTextFilter
-from src.subtitools.processing.tuner import Tuner
-from src.subtitools.processing.srtreader import SrtReader
+from subtitools.processing.filter import HideTextFilter
+from subtitools.processing.tuner import Tuner
+from subtitools.processing.srtreader import SrtReader
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())

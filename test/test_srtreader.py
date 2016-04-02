@@ -3,9 +3,9 @@ import os
 import logging
 import unittest
 
-from src.subtitools.processing.srtreader import SrtReader
-from src.subtitools.processing.exceptions import InvalidSrtFormatError
-from src.subtitools.processing.subtitle import Subtitle
+from subtitools.processing.srtreader import SrtReader
+from subtitools.processing.exceptions import InvalidSrtFormatError
+from subtitools.processing.subtitle import Subtitle
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())

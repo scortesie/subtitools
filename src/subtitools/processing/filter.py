@@ -1,7 +1,7 @@
 import re
 import logging
 
-from src.subtitools.processing.subtitle import Subtitle
+from subtitools.processing.subtitle import Subtitle
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.NullHandler())
