@@ -26,6 +26,7 @@ class SrtReaderTestCase(unittest.TestCase):
         self.file_srt_invalid_more_than_1_newlines_after_subtitle = os.path.join(
             self.data_path, 'srt-invalid_more_than_1_newlines_after_subtitle.srt')
         self.file_srt_actual_non_strict = os.path.join(self.data_path, 'srt-actual_non_strict.srt')
+        self.file_srt_with_bom = os.path.join(self.data_path, 'srt-with_bom.srt')
 
     def tearDown(self):
         pass
@@ -114,3 +115,23 @@ class SrtReaderTestCase(unittest.TestCase):
         with SrtReader(self.file_srt_actual_non_strict, False) as reader:
             subtitles = [subtitle for subtitle in reader]
             self.assertEqual(1162, len(subtitles))
+
+    def test_should_reset_srt_file(self):
+        subtitle_1 = Subtitle(
+            1,
+            '00:00:07,130', '00:00:09,131',
+            'Uh, yeah, no.\n')
+        subtitle_2 = Subtitle(
+            2,
+            '00:00:09,132', '00:00:11,133',
+            'I mean, you people called me.\n')
+        with SrtReader(self.file_srt_with_bom, False) as reader:
+            subtitle = reader.read_next_subtitle()
+            self.assertEqual(subtitle, subtitle_1)
+            subtitle = reader.read_next_subtitle()
+            self.assertEqual(subtitle, subtitle_2)
+            reader.reset()
+            subtitle = reader.read_next_subtitle()
+            self.assertEqual(subtitle, subtitle_1)
+            subtitle = reader.read_next_subtitle()
+            self.assertEqual(subtitle, subtitle_2)

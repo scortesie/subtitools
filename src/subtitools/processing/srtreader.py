@@ -38,11 +38,10 @@ class SrtReader(object):
             self.srt_file = open(srt_file, 'r')
         else:
             self.srt_file = srt_file
-        if self.srt_file.read(3) != codecs.BOM_UTF8:
-            self.srt_file.seek(0)
         self.apply_strict_parsing = apply_strict_parsing
         self.re_timestamps = re.compile('^(\d\d[:]\d\d[:]\d\d,\d\d\d)[ ][-][-][>][ ](\d\d[:]\d\d[:]\d\d[,]\d\d\d)$')
         self.line_number = 0
+        self.reset()
 
     def __enter__(self):
         return self
@@ -134,8 +133,14 @@ class SrtReader(object):
                 return
 
     def read_subtitles(self):
-        self.srt_file.seek(0)
+        self.reset()
         return [subtitle for subtitle in self]
+
+    def reset(self):
+        self.srt_file.seek(0)
+        if self.srt_file.read(3) != codecs.BOM_UTF8:
+            self.srt_file.seek(0)
+        self.line_number = 0
 
     def close(self):
         self.srt_file.close()
