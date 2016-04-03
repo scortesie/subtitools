@@ -41,8 +41,8 @@ def tune_subtitles():
             mimetype='text/plain',
             attachment_filename=file_srt_to_tune.filename,
             as_attachment=True)
-    except InvalidSrtFormatError:
-        flask.flash("The file is not a valid srt file")
+    except InvalidSrtFormatError as e:
+        flask.flash("The file is not a valid srt file: {0}".format(e.message))
         response = flask.render_template('index.html')
     return response
 
