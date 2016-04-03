@@ -26,7 +26,7 @@ class SrtWriterTestCase(unittest.TestCase):
         subtitle = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'I heard you.\n')
         subtitle_serialised = '1249\n01:24:09,860 --> 01:24:11,300\nI heard you.\n\n'
         with SrtWriter(self.file_srt_temp_path) as writer:
-            writer.write_subtitle(subtitle)
+            writer.write(subtitle)
         with open(self.file_srt_temp_path) as file_str_temp:
             self.assertEqual(subtitle_serialised, file_str_temp.read())
 
@@ -36,8 +36,8 @@ class SrtWriterTestCase(unittest.TestCase):
         subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', 'Anyway, time to go and\nbe Sherlock Holmes.\n')
         subtitle_2_serialised = '1250\n01:24:15,020 --> 01:24:17,900\nAnyway, time to go and\nbe Sherlock Holmes.\n\n'
         with SrtWriter(self.file_srt_temp_path) as writer:
-            writer.write_subtitle(subtitle_1)
-            writer.write_subtitle(subtitle_2)
+            writer.write(subtitle_1)
+            writer.write(subtitle_2)
         with open(self.file_srt_temp_path) as file_str_temp:
             self.assertEqual(subtitle_1_serialised + subtitle_2_serialised, file_str_temp.read())
 
@@ -48,7 +48,7 @@ class SrtWriterTestCase(unittest.TestCase):
         subtitle_2_serialised = '1250\n01:24:15,020 --> 01:24:17,900\nAnyway, time to go and\nbe Sherlock Holmes.\n\n'
         subtitles = [subtitle_1, subtitle_2]
         with SrtWriter(self.file_srt_temp_path) as writer:
-            writer.write_subtitles(subtitles)
+            writer.write(subtitles)
         with open(self.file_srt_temp_path) as file_str_temp:
             self.assertEqual(subtitle_1_serialised + subtitle_2_serialised, file_str_temp.read())
 
@@ -59,7 +59,7 @@ class SrtWriterTestCase(unittest.TestCase):
         subtitle_2_serialised = '1250\n01:24:15,020 --> 01:24:17,900\n¡Qué más da, es hora de\nser Sherlock Holmes!\n\n'
         subtitles = [subtitle_1, subtitle_2]
         with SrtWriter(self.file_srt_temp_path) as writer:
-            writer.write_subtitles(subtitles)
+            writer.write(subtitles)
         with open(self.file_srt_temp_path) as file_str_temp:
             self.assertEqual(subtitle_1_serialised + subtitle_2_serialised, file_str_temp.read())
 
@@ -67,7 +67,7 @@ class SrtWriterTestCase(unittest.TestCase):
         reader = SrtReader(self.file_srt_2_subtitles_path)
         subtitles = reader.read_subtitles()
         with SrtWriter(self.file_srt_temp_path) as writer:
-            writer.write_subtitles(subtitles)
+            writer.write(subtitles)
         with open(self.file_srt_2_subtitles_path) as file_srt_2_subtitles,\
                 open(self.file_srt_temp_path) as file_srt_temp:
             self.assertEqual(file_srt_2_subtitles.read(), file_srt_temp.read())
@@ -76,7 +76,7 @@ class SrtWriterTestCase(unittest.TestCase):
         reader = SrtReader(self.file_srt_2_subtitles_utf8_path)
         subtitles = reader.read_subtitles()
         with SrtWriter(self.file_srt_temp_path) as writer:
-            writer.write_subtitles(subtitles)
+            writer.write(subtitles)
         with open(self.file_srt_2_subtitles_utf8_path) as file_srt_2_subtitles_utf8,\
                 open(self.file_srt_temp_path) as file_srt_temp:
             self.assertEqual(file_srt_2_subtitles_utf8.read(), file_srt_temp.read())

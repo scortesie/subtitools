@@ -20,7 +20,7 @@ from subtitools.processing.exceptions import InvalidSrtFormatError
 with SrtReader('tlo.srt') as reader, SrtWriter(sys.stdout) as writer:
     try:
         for subtitle in reader:
-            writer.write_subtitle(subtitle)
+            writer.write(subtitle)
     except InvalidSrtFormatError as e:
         sys.stdout.write(
             "There was an error while reading the file: {0}".format(

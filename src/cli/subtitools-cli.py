@@ -26,7 +26,7 @@ def main():
     with SrtReader(args.srt_file) as reader, SrtWriter(args.output) as writer:
         try:
             for subtitle in reader:
-                writer.write_subtitle(subtitle)
+                writer.write(subtitle)
         except InvalidSrtFormatError as e:
             sys.stdout.write(
                 "There was an error while reading the file: {0}".format(

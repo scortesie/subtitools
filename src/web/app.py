@@ -34,7 +34,7 @@ def tune_subtitles():
         subtitles_tuned = tuner.tune(file_srt_to_tune)
         file_srt_tuned = StringIO()
         writer = SrtWriter(file_srt_tuned)
-        writer.write_subtitles(subtitles_tuned)
+        writer.write(subtitles_tuned)
         file_srt_tuned.seek(0)
         response = flask.send_file(
             file_srt_tuned,
