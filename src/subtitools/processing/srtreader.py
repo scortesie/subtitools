@@ -125,13 +125,6 @@ class SrtReader(object):
         except EOFError:
             raise StopIteration()
 
-    def read_next_subtitles(self):
-        while True:
-            try:
-                yield self.read_next_subtitle()
-            except EOFError:
-                return
-
     def read_subtitles(self):
         self.reset()
         return [subtitle for subtitle in self]
