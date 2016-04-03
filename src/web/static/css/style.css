@@ -3,15 +3,18 @@ html
     font-family: arial;
 }
 
+main
+{
+    width: 80%;
+    margin: 10px auto 10px auto;
+}
 p
 {
-    text-align: center;
     font-size: x-large;
 }
 
 div.error_msg
 {
-    text-align: center;
     color: red;
 }
 
@@ -19,4 +22,42 @@ div.form_field
 {
     width: 100px;
     margin: 10px auto 10px auto;
+}
+
+.center
+{
+    text-align: center;
+}
+
+input[type=button].neat
+{
+    border: none;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+ul.subtitle-metadata li
+{
+    list-style: none;
+}
+
+.subtitle-id
+{
+}
+
+.subtitle-timestamp
+{
+}
+
+.subtitle-text
+{
+    margin-left: 15px;
+}
+
+.subtitle-text p
+{
+    margin-top: 5px;
+    margin-bottom: 5px;
 }

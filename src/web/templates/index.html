@@ -1,25 +1,19 @@
 {% extends 'layout.html' %}
 {% block body %}
-<p>
-    Adjust the settings to tune an *.srt file containing subtitles.
+
+<p class="center">
+   Upload a *.srt file and apply the filters to the subtitles.
 </p>
 
-<form id="form_tune" action="{{ url_for('tune_subtitles') }}" method="POST" enctype=multipart/form-data>
-    <div></div>
-    <div class="form_field">
-        <span><input type="checkbox" name="hide_text" value="true"/></span>
-        <span>Hide text</span>
-    </div>
-    <input id="btn_file" type="file" name="file">
-    <div style="text-align: center;">
-        <input id="btn_tune" type="image" src="{{ url_for('static', filename='img/tune_subtitles.png') }}"/>
-    </div>
-    {% for message in get_flashed_messages() %}
-    <div class="error_msg">{{ message }}</div>
-    {% endfor %}
+<form id="form_upload" action="" class="center">
+    <input id="btn_upload" type="file" name="file">
+    <input id="btn_upload_visible" type="button" value="Upload a srt file" class="neat">
 </form>
 
+<section id="subtitles"></section>
+
 <script>
-    to_file_button($('#btn_file'), $('#btn_tune'))
+    to_file_button($('#btn_upload'), $('#btn_upload_visible'))
 </script>
+
 {% endblock %}
