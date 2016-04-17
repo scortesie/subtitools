@@ -24,11 +24,11 @@ class HideTextFilter(Filter):
             raise ValueError("Percentage must be a number between 1 and 100")
 
     def hide_word(self, word):
-        return '_' * len(word)
+        return u'_' * len(word)
 
     def filter(self, subtitle):
-        subtitle_text = subtitle.text.decode('utf-8')
-        subtitle_text_filtered = ''
+        subtitle_text = subtitle.text
+        subtitle_text_filtered = u''
         text_current_char_index = 0
         text_current_word_position = 0
         for match in self.re_word.finditer(subtitle_text):
@@ -44,4 +44,4 @@ class HideTextFilter(Filter):
         return Subtitle(subtitle.identifier,
                         subtitle.timestamp_begin,
                         subtitle.timestamp_end,
-                        subtitle_text_filtered.encode('utf-8'))
+                        subtitle_text_filtered)

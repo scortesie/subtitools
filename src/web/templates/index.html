@@ -1,19 +1,37 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<p class="center">
-   Upload a *.srt file and apply the filters to the subtitles.
-</p>
+<section id="section-toolbar">
+  <form id="form-upload" action="" class="tool">
+    <input id="btn-apply_filter" type="button" value="Apply filter"
+           onclick="alert('Not yet implemented');" class="btn-action-1"/>
+    <input id="btn-download" type="button" value="Download"
+           onclick="window.location.href='subtitles'" class="btn-action-2"/>
+    <input id="btn-upload" type="file" name="file" class="btn-upload"/>
+    <input id="btn-upload-visible" type="button" value="Upload" class="btn-action-2"/>
+  </form>
+</section>
 
-<form id="form_upload" action="" class="center">
-    <input id="btn_upload" type="file" name="file">
-    <input id="btn_upload_visible" type="button" value="Upload a srt file" class="neat">
-</form>
-
-<section id="subtitles"></section>
+<section id="section-workspace">
+  <form id="form-upload_srt" action="" class="center vcenter">
+    <input id="btn-upload_srt" type="file" name="file" class="btn-upload">
+    <input id="btn-upload_srt-visible" type="button" value="Upload a srt file" class="neat">
+  </form>
+</section>
 
 <script>
-    to_file_button($('#btn_upload'), $('#btn_upload_visible'))
+$(document).ready(function()
+{
+    $("#section-toolbar").hide();
+    $(".btn-upload").each(function(index, value)
+    {
+        $(value).file_uploader({
+            url: 'subtitles',
+            on_success: get_preview,
+            on_error: render_error
+        });
+    });
+});
 </script>
 
 {% endblock %}

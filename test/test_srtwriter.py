@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+
 import os
 import logging
 import unittest
@@ -23,7 +24,7 @@ class SrtWriterTestCase(unittest.TestCase):
             os.remove(self.file_srt_temp_path)
 
     def test_should_write_1_subtitle(self):
-        subtitle = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'I heard you.\n')
+        subtitle = Subtitle(1249, '01:24:09,860', '01:24:11,300', u'I heard you.\n')
         subtitle_serialised = '1249\n01:24:09,860 --> 01:24:11,300\nI heard you.\n\n'
         with SrtWriter(self.file_srt_temp_path) as writer:
             writer.write(subtitle)
@@ -31,9 +32,9 @@ class SrtWriterTestCase(unittest.TestCase):
             self.assertEqual(subtitle_serialised, file_str_temp.read())
 
     def test_should_write_2_subtitles(self):
-        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'I heard you.\n')
+        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', u'I heard you.\n')
         subtitle_1_serialised = '1249\n01:24:09,860 --> 01:24:11,300\nI heard you.\n\n'
-        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', 'Anyway, time to go and\nbe Sherlock Holmes.\n')
+        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', u'Anyway, time to go and\nbe Sherlock Holmes.\n')
         subtitle_2_serialised = '1250\n01:24:15,020 --> 01:24:17,900\nAnyway, time to go and\nbe Sherlock Holmes.\n\n'
         with SrtWriter(self.file_srt_temp_path) as writer:
             writer.write(subtitle_1)
@@ -42,9 +43,9 @@ class SrtWriterTestCase(unittest.TestCase):
             self.assertEqual(subtitle_1_serialised + subtitle_2_serialised, file_str_temp.read())
 
     def test_should_write_all_subtitles(self):
-        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'I heard you.\n')
+        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', u'I heard you.\n')
         subtitle_1_serialised = '1249\n01:24:09,860 --> 01:24:11,300\nI heard you.\n\n'
-        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', 'Anyway, time to go and\nbe Sherlock Holmes.\n')
+        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', u'Anyway, time to go and\nbe Sherlock Holmes.\n')
         subtitle_2_serialised = '1250\n01:24:15,020 --> 01:24:17,900\nAnyway, time to go and\nbe Sherlock Holmes.\n\n'
         subtitles = [subtitle_1, subtitle_2]
         with SrtWriter(self.file_srt_temp_path) as writer:
@@ -53,9 +54,9 @@ class SrtWriterTestCase(unittest.TestCase):
             self.assertEqual(subtitle_1_serialised + subtitle_2_serialised, file_str_temp.read())
 
     def test_should_write_all_subtitles_utf8(self):
-        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'Te escuché.\n')
+        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', u'Te escuché.\n')
         subtitle_1_serialised = '1249\n01:24:09,860 --> 01:24:11,300\nTe escuché.\n\n'
-        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', '¡Qué más da, es hora de\nser Sherlock Holmes!\n')
+        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', u'¡Qué más da, es hora de\nser Sherlock Holmes!\n')
         subtitle_2_serialised = '1250\n01:24:15,020 --> 01:24:17,900\n¡Qué más da, es hora de\nser Sherlock Holmes!\n\n'
         subtitles = [subtitle_1, subtitle_2]
         with SrtWriter(self.file_srt_temp_path) as writer:

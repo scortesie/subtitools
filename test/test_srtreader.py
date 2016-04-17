@@ -1,4 +1,5 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+
 import os
 import logging
 import unittest
@@ -37,12 +38,12 @@ class SrtReaderTestCase(unittest.TestCase):
             self.assertEqual(subtitle.identifier, 1249)
             self.assertEqual(subtitle.timestamp_begin, '01:24:09,860')
             self.assertEqual(subtitle.timestamp_end, '01:24:11,300')
-            self.assertEqual(subtitle.text, 'I heard you.\n')
+            self.assertEqual(subtitle.text, u'I heard you.\n')
             subtitle = reader.read_next_subtitle()
             self.assertEqual(subtitle.identifier, 1250)
             self.assertEqual(subtitle.timestamp_begin, '01:24:15,020')
             self.assertEqual(subtitle.timestamp_end, '01:24:17,900')
-            self.assertEqual(subtitle.text, 'Anyway, time to go and\nbe Sherlock Holmes.\n')
+            self.assertEqual(subtitle.text, u'Anyway, time to go and\nbe Sherlock Holmes.\n')
 
     def test_should_raise_invalid_format_error_when_reading_next_subtitle_with_invalid_identifier(self):
         reader = SrtReader(self.file_srt_invalid_identifier)
@@ -70,7 +71,7 @@ class SrtReaderTestCase(unittest.TestCase):
             self.assertEqual(subtitle.identifier, 1250)
             self.assertEqual(subtitle.timestamp_begin, '01:24:15,020')
             self.assertEqual(subtitle.timestamp_end, '01:24:17,900')
-            self.assertEqual(subtitle.text, 'Anyway, time to go and\nbe Sherlock Holmes.\n')
+            self.assertEqual(subtitle.text, u'Anyway, time to go and\nbe Sherlock Holmes.\n')
 
     def test_should_raise_invalid_format_error_when_reading_next_subtitle_with_invalid_text_is_eof(self):
         reader = SrtReader(self.file_srt_invalid_text_is_eof)
@@ -83,16 +84,16 @@ class SrtReaderTestCase(unittest.TestCase):
             reader.read_next_subtitle()
 
     def test_should_read_subtitles(self):
-        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'I heard you.\n')
-        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', 'Anyway, time to go and\nbe Sherlock Holmes.\n')
+        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', u'I heard you.\n')
+        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', u'Anyway, time to go and\nbe Sherlock Holmes.\n')
         subtitles_reference = [subtitle_1, subtitle_2]
         with SrtReader(self.file_srt_2_subtitles_path) as reader:
             subtitles = reader.read_subtitles()
             self.assertEqual(subtitles_reference, subtitles)
 
     def test_should_read_subtitles_utf8(self):
-        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', 'Te escuché.\n')
-        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', '¡Qué más da, es hora de\nser Sherlock Holmes!\n')
+        subtitle_1 = Subtitle(1249, '01:24:09,860', '01:24:11,300', u'Te escuché.\n')
+        subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', u'¡Qué más da, es hora de\nser Sherlock Holmes!\n')
         subtitles_reference = [subtitle_1, subtitle_2]
         with SrtReader(self.file_srt_2_subtitles_utf8_path) as reader:
             subtitles = reader.read_subtitles()
@@ -104,12 +105,12 @@ class SrtReaderTestCase(unittest.TestCase):
             self.assertEqual(subtitle.identifier, 758)
             self.assertEqual(subtitle.timestamp_begin, '00:55:36,000')
             self.assertEqual(subtitle.timestamp_end, '00:55:39,440')
-            self.assertEqual(subtitle.text, 'Chinese ceramic statue sold for\n')
+            self.assertEqual(subtitle.text, u'Chinese ceramic statue sold for\n')
             subtitle = reader.read_next_subtitle()
             self.assertEqual(subtitle.identifier, 759)
             self.assertEqual(subtitle.timestamp_begin, '00:55:39,440')
             self.assertEqual(subtitle.timestamp_end, '00:55:42,840')
-            self.assertEqual(subtitle.text, 'Look, a month before that,\nChinese painting,\n')
+            self.assertEqual(subtitle.text, u'Look, a month before that,\nChinese painting,\n')
 
     def test_should_read_actual_non_strict_srt_file(self):
         with SrtReader(self.file_srt_actual_non_strict, False) as reader:
@@ -120,11 +121,11 @@ class SrtReaderTestCase(unittest.TestCase):
         subtitle_1 = Subtitle(
             1,
             '00:00:07,130', '00:00:09,131',
-            'Uh, yeah, no.\n')
+            u'Uh, yeah, no.\n')
         subtitle_2 = Subtitle(
             2,
             '00:00:09,132', '00:00:11,133',
-            'I mean, you people called me.\n')
+            u'I mean, you people called me.\n')
         with SrtReader(self.file_srt_with_bom, False) as reader:
             subtitle = reader.read_next_subtitle()
             self.assertEqual(subtitle, subtitle_1)

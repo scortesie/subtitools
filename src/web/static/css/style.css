@@ -1,6 +1,6 @@
 html
 {
-    font-family: arial;
+    font-family: verdana;
 }
 
 main
@@ -8,6 +8,7 @@ main
     width: 80%;
     margin: 10px auto 10px auto;
 }
+
 p
 {
     font-size: x-large;
@@ -29,18 +30,75 @@ div.form_field
     text-align: center;
 }
 
+.vcenter
+{
+    margin-top: 20%;
+}
+
 input[type=button].neat
 {
     border: none;
-    padding: 15px;
+    padding: 55px;
+    font-size: 28px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form.tool input[type=button]
+{
+    border: none;
+    padding: 10px;
     font-size: 18px;
     border-radius: 5px;
     cursor: pointer;
 }
 
-ul.subtitle-metadata li
+.btn-action-1
+{
+    background-color: #FF5722;
+    color: white;
+}
+
+.btn-action-2
+{
+    background-color: #00BCD4;
+    color: white;
+}
+
+ul.subtitle-list
+{
+    padding: 0px;
+    margin: 0px;
+}
+
+ul.subtitle-list li
 {
     list-style: none;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #03A9F4;
+    color: white;
+    border-radius: 5px;
+}
+
+section.subtitle-metadata
+{
+    float: left;
+    font-size: 12px;
+}
+
+section.subtitle-metadata ul
+{
+    margin: 0px;
+    padding: 0px;
+}
+
+section.subtitle-metadata li
+{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
 }
 
 .subtitle-id
@@ -51,13 +109,9 @@ ul.subtitle-metadata li
 {
 }
 
-.subtitle-text
-{
-    margin-left: 15px;
-}
-
 .subtitle-text p
 {
     margin-top: 5px;
     margin-bottom: 5px;
+    text-align: center;
 }

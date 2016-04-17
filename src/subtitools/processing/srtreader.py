@@ -107,7 +107,7 @@ class SrtReader(object):
             text += line_text.rstrip() + '\n'
             line_text = self.srt_file.readline()
         self.line_number += 1
-        return text
+        return text.decode('utf-8')
 
     def read_next_subtitle(self):
         subtitle = Subtitle()
@@ -128,6 +128,10 @@ class SrtReader(object):
     def read_subtitles(self):
         self.reset()
         return [subtitle for subtitle in self]
+
+    def read_subtitles_dict(self):
+        self.reset()
+        return [subtitle.__dict__ for subtitle in self]
 
     def reset(self):
         self.srt_file.seek(0)
