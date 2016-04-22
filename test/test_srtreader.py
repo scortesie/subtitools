@@ -18,6 +18,7 @@ class SrtReaderTestCase(unittest.TestCase):
         self.data_path = os.path.join(self.test_path, 'data')
         self.file_srt_2_subtitles_path = os.path.join(self.data_path, 'srt-2_subtitles.srt')
         self.file_srt_2_subtitles_utf8_path = os.path.join(self.data_path, 'srt-2_subtitles_utf8.srt')
+        self.file_srt_2_subtitles_iso_8859_1_path = os.path.join(self.data_path, 'srt-2_subtitles_iso_8859_1.srt')
         self.file_srt_invalid_identifier = os.path.join(self.data_path, 'srt-invalid_identifier.srt')
         self.file_srt_invalid_timestamps = os.path.join(self.data_path, 'srt-invalid_timestamps.srt')
         self.file_srt_invalid_text_has_no_lines = os.path.join(self.data_path, 'srt-invalid_text_has_no_lines.srt')
@@ -96,6 +97,21 @@ class SrtReaderTestCase(unittest.TestCase):
         subtitle_2 = Subtitle(1250, '01:24:15,020', '01:24:17,900', u'¡Qué más da, es hora de\nser Sherlock Holmes!\n')
         subtitles_reference = [subtitle_1, subtitle_2]
         with SrtReader(self.file_srt_2_subtitles_utf8_path) as reader:
+            subtitles = reader.read_subtitles()
+            self.assertEqual(subtitles_reference, subtitles)
+
+    def test_should_read_subtitles_iso_8859_1(self):
+        subtitle_1 = Subtitle(
+            1, '00:00:00,490', '00:00:02,830',
+            u"Anteriormente en Marvel's\nAgents of S.H.I.E.L.D....\n")
+        subtitle_2 = Subtitle(
+            2, '00:00:02,860', '00:00:05,090',
+            u"Se supone que Malick es\nla última cabeza de Hydra,\n")
+        subtitles_reference = [subtitle_1, subtitle_2]
+        with SrtReader(self.file_srt_2_subtitles_iso_8859_1_path) as reader:
+            subtitles = reader.read_subtitles()
+            self.assertEqual(subtitles_reference, subtitles)
+        with SrtReader(open(self.file_srt_2_subtitles_iso_8859_1_path)) as reader:
             subtitles = reader.read_subtitles()
             self.assertEqual(subtitles_reference, subtitles)
 

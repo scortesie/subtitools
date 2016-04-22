@@ -22,6 +22,7 @@ For further information see http://www.matroska.org/technical/specs/subtitles/sr
 """
 
 import codecs
+import magic
 import re
 import logging
 
@@ -41,7 +42,14 @@ class SrtReader(object):
         self.apply_strict_parsing = apply_strict_parsing
         self.re_timestamps = re.compile('^(\d\d[:]\d\d[:]\d\d,\d\d\d)[ ][-][-][>][ ](\d\d[:]\d\d[:]\d\d[,]\d\d\d)$')
         self.line_number = 0
+        self._detect_encoding()
         self.reset()
+
+    def _detect_encoding(self):
+        contents = self.srt_file.read()
+        magic_tool = magic.open(magic.MAGIC_MIME_ENCODING)
+        magic_tool.load()
+        self.encoding = magic_tool.buffer(contents)
 
     def __enter__(self):
         return self
@@ -107,7 +115,7 @@ class SrtReader(object):
             text += line_text.rstrip() + '\n'
             line_text = self.srt_file.readline()
         self.line_number += 1
-        return text.decode('utf-8')
+        return text.decode(self.encoding)
 
     def read_next_subtitle(self):
         subtitle = Subtitle()
