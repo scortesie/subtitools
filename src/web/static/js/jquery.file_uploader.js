@@ -1,6 +1,6 @@
 (function ($)
 {
-    function to_file_uploader(btn_file, url, on_success, on_error)
+    function to_file_uploader(btn_file, url, on_click, on_success, on_error)
     {
         btn_target = $('#' + btn_file.attr('id') + '-visible');
         btn_file.hide();
@@ -12,6 +12,7 @@
         {
             if (btn_file.val() !== '')
             {
+                on_click();
                 var formData = new FormData(btn_file.parent()[0]);
                 $.ajax({
                     url: url,
@@ -30,8 +31,14 @@
 
     $.fn.file_uploader = function(options)
     {
-        var settings = $.extend({}, options);
-        to_file_uploader(this, settings.url, settings.on_success, settings.on_error);
+        var settings = $.extend({
+            on_click: function(){},
+            on_success: function(){},
+            on_error: function(){}
+            }, options);
+        to_file_uploader(
+            this, settings.url,
+            settings.on_click, settings.on_success, settings.on_error);
         return this;
     };
 }(jQuery));

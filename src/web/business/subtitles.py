@@ -2,12 +2,16 @@ import StringIO
 
 from subtitools.processing.srtreader import SrtReader
 from subtitools.processing.srtwriter import SrtWriter
+from subtitools.processing.exceptions import InvalidSrtFormatError
 from web.helpers import session
 
 
 def post(file_str):
     with SrtReader(file_str) as reader:
-        subtitles = reader.read_subtitles_dict()
+        try:
+            subtitles = reader.read_subtitles_dict()
+        except InvalidSrtFormatError:
+            raise
     session.set_subtitles(subtitles)
     session.set_preview(subtitles)
 

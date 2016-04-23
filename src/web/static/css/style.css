@@ -14,9 +14,24 @@ p
     font-size: x-large;
 }
 
-div.error_msg
+div.ajax_loader
 {
-    color: red;
+    height: 20px;
+    background-image: url("/static/img/ajax-loader.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-top: 20%;
+}
+
+div.error
+{
+    margin-top: 10px;
+    background-color: #FF5722;
+    color: white;
+    font-size: larger;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
 }
 
 div.form_field

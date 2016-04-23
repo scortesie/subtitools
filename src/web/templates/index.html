@@ -27,8 +27,13 @@ $(document).ready(function()
     {
         $(value).file_uploader({
             url: 'subtitles',
+            on_click: function(){
+                $("#section-toolbar").hide();
+                $("#section-workspace").html("<div class='ajax_loader'></div>");
+            },
             on_success: get_preview,
-            on_error: render_error
+            on_error: function(xhr, status, text){
+                render_error("error", xhr.responseText, "Unexpected error")}
         });
     });
 });
