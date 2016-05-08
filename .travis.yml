@@ -11,7 +11,7 @@ before_script:
   - sleep 15
   - mongo subtitools_test --eval 'db.addUser("test", "t3st");'
   - source test/env.sh
-  - env PYTHONPATH=$PYTHONPATH:$PWD/src gunicorn web.app:app --log-file=- --log-config=./config/logging.conf
+  - env PYTHONPATH=$PYTHONPATH:$PWD/src gunicorn web.app:app --log-file=- --log-config=./config/logging.conf &
 script:
   - nosetests
   - robot test/*.robot
