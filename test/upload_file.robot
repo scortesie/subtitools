@@ -7,7 +7,7 @@ Test Setup        Go to  ${url_home}
 
 *** Variables ***
 ${browser}           Chrome
-${url_base}          http://localhost:5000
+${url_base}          http://127.0.0.1:8000
 ${url_home}          ${url_base}/
 
 *** Test Cases ***
