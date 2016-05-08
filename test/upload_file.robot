@@ -6,7 +6,7 @@ Suite Teardown    Close browser
 Test Setup        Go to  ${url_home}
 
 *** Variables ***
-${browser}           firefox
+${browser}           phantomjs
 ${url_base}          http://127.0.0.1:8000
 ${url_home}          ${url_base}/
 
