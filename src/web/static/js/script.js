@@ -14,10 +14,10 @@ function render_preview(data)
 function render_error(error_class, error_message, error_message_default)
 {
     $("#section-toolbar").show();
-    $("#btn-apply_filter").fadeTo('fast', 0.3);
-    $("#btn-apply_filter").prop('disabled', true);
-    $("#btn-download").fadeTo('fast', 0.3);
-    $("#btn-download").prop('disabled', true);
+    $("#btn-tool-apply_filter").fadeTo('fast', 0.3);
+    $("#btn-tool-apply_filter").prop('disabled', true);
+    $("#btn-tool-download").fadeTo('fast', 0.3);
+    $("#btn-tool-download").prop('disabled', true);
 
     error_message = error_message == '' ? error_message_default : error_message;
     $("#section-workspace").html(

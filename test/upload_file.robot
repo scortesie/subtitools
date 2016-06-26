@@ -27,23 +27,23 @@ Setup test suite
     Open browser          ${url_home}  ${browser}
 
 A valid srt file
-    Choose file    id=btn-upload_srt  %{PWD}/test/data/srt-2_subtitles.srt
+    Choose file    id=btn-upload  %{PWD}/test/data/srt-2_subtitles.srt
 
 An invalid srt file
-    Choose file    id=btn-upload_srt  %{PWD}/test/data/srt-invalid_identifier.srt
+    Choose file    id=btn-upload  %{PWD}/test/data/srt-invalid_identifier.srt
 
 Page should contain toolbar
     Wait until element is visible    section-toolbar
-    :FOR  ${field id}  IN  btn-apply_filter  btn-download  btn-upload-visible
+    :FOR  ${field id}  IN  btn-tool-apply_filter  btn-tool-download  btn-tool-upload-visible
     \    ${disabled} =                    get element attribute  ${field id}@disabled
     \    Should be true                   ${disabled} == None
 
 Page should contain disabled toolbar
     Wait until element is visible    section-toolbar
-    :FOR  ${field id}  IN  btn-apply_filter  btn-download
+    :FOR  ${field id}  IN  btn-tool-apply_filter  btn-tool-download
     \    ${disabled} =                    get element attribute  ${field id}@disabled
     \    Should be true                   '${disabled}' == 'true'
-    ${disabled} =                    get element attribute  btn-upload-visible@disabled
+    ${disabled} =                    get element attribute  btn-tool-upload-visible@disabled
     Should be true                   ${disabled} == None
 
 Page should contain up to ${count} subtitles
@@ -51,4 +51,4 @@ Page should contain up to ${count} subtitles
     Should be true       ${count_actual} <= ${count}
 
 Page should contain error
-    Element should contain  xpath=//div[@class='error']  The uploaded file is not a valid srt file
+    Element should contain  xpath=//section[@id='section-workspace']/div  The uploaded file is not a valid srt file
