@@ -2,6 +2,7 @@ import os
 
 import flask
 
+from helpers.navigation import navigation
 from controllers import subtitles
 
 app = flask.Flask(__name__, static_url_path='/static')
@@ -10,7 +11,14 @@ app.secret_key = os.environ['APP_SECRET_KEY']
 
 @app.route('/')
 def index():
-    return flask.render_template('index.html', subtitles=[])
+    return flask.render_template(
+        'index.html', page_id='index', navigation=navigation, subtitles=[])
+
+
+@app.route('/about')
+def about():
+    return flask.render_template(
+        'about.html', page_id='about', navigation=navigation)
 
 
 @app.route('/subtitles', methods=('GET',), strict_slashes=False)

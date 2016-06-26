@@ -1,97 +1,25 @@
-html
+section#section-workspace
 {
-    font-family: verdana;
+    margin-top: 5px;
 }
 
-main
-{
-    width: 80%;
-    margin: 10px auto 10px auto;
-}
-
-p
+.msg-error
 {
     font-size: x-large;
 }
 
-div.ajax_loader
-{
-    height: 20px;
-    background-image: url("/static/img/ajax-loader.gif");
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-top: 20%;
-}
-
-div.error
-{
-    margin-top: 10px;
-    background-color: #FF5722;
-    color: white;
-    font-size: larger;
-    padding: 10px;
-    border-radius: 5px;
-    text-align: center;
-}
-
-div.form_field
-{
-    width: 100px;
-    margin: 10px auto 10px auto;
-}
-
-.center
-{
-    text-align: center;
-}
-
-.vcenter
-{
-    margin-top: 20%;
-}
-
-input[type=button].neat
-{
-    border: none;
-    padding: 55px;
-    font-size: 28px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-form.tool input[type=button]
-{
-    border: none;
-    padding: 10px;
-    font-size: 18px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-action-1
-{
-    background-color: #FF5722;
-    color: white;
-}
-
-.btn-action-2
-{
-    background-color: #00BCD4;
-    color: white;
-}
-
 ul.subtitle-list
 {
-    padding: 0px;
-    margin: 0px;
+    list-style: none;
+    padding: 0px 15px 0px 15px;
 }
 
-ul.subtitle-list li
+ul.subtitle-list>li
 {
     list-style: none;
-    padding: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
+    padding: 10px;
     background-color: #03A9F4;
     color: white;
     border-radius: 5px;
@@ -105,14 +33,13 @@ section.subtitle-metadata
 
 section.subtitle-metadata ul
 {
-    margin: 0px;
+    list-style: none;
     padding: 0px;
 }
 
 section.subtitle-metadata li
 {
     list-style: none;
-    margin: 0px;
     padding: 0px;
 }
 
@@ -129,4 +56,5 @@ section.subtitle-metadata li
     margin-top: 5px;
     margin-bottom: 5px;
     text-align: center;
+    font-size: x-large;
 }

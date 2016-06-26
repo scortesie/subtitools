@@ -1,18 +1,20 @@
 <ul class="subtitle-list">
 {% for subtitle in subtitles %}
-    <li>
-        <section class="subtitle-metadata">
+  <li class="row">
+    <section class="col-xs-12">
+      <section class="subtitle-metadata">
         <ul>
-            <li class="subtitle-id">{{ subtitle.identifier }}</li>
-            <li class="subtitle-timestamp">{{ subtitle.timestamp_begin }}</li>
-            <li class="subtitle-timestamp">{{ subtitle.timestamp_end}}</li>
+          <li class="subtitle-id">{{ subtitle.identifier }}</li>
+          <li class="subtitle-timestamp">{{ subtitle.timestamp_begin }}</li>
+          <li class="subtitle-timestamp">{{ subtitle.timestamp_end}}</li>
         </ul>
-        </section>
-        <section class="subtitle-text">
-        {% for line in subtitle.text.splitlines() %}
-            <p>{{ line }}</p>
-        {% endfor %}
-        </section>
-    </li>
+      </section>
+      <section class="subtitle-text">
+      {% for line in subtitle.text.splitlines() %}
+        <p>{{ line }}</p>
+      {% endfor %}
+      </section>
+    </section>
+  </li>
 {% endfor %}
 </ul>

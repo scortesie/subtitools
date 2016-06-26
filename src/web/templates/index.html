@@ -1,22 +1,28 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<section id="section-toolbar">
-  <form id="form-upload" action="" class="tool">
-    <input id="btn-apply_filter" type="button" value="Apply filter"
-           onclick="alert('Not yet implemented');" class="btn-action-1"/>
-    <input id="btn-download" type="button" value="Download"
-           onclick="window.location.href='subtitles'" class="btn-action-2"/>
-    <input id="btn-upload" type="file" name="file" class="btn-upload"/>
-    <input id="btn-upload-visible" type="button" value="Upload" class="btn-action-2"/>
-  </form>
+<section id="section-toolbar" class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <a id="btn-tool-apply_filter"
+         class="btn btn-md btn-success" href="#" role="button"
+         onclick="alert('Not yet implemented');">Apply filter</a>
+      <a id="btn-tool-download"
+         class="btn btn-md btn-primary" href="subtitles" role="button">Download</a>
+      <a id="btn-tool-upload-visible"
+         class="btn btn-md btn-primary" href="#" role="button">Upload</a>
+      <form><input id="btn-tool-upload" type="file" name="file" class="btn-upload"/></form>
+    </div>
+  </div>
 </section>
 
-<section id="section-workspace">
-  <form id="form-upload_srt" action="" class="center vcenter">
-    <input id="btn-upload_srt" type="file" name="file" class="btn-upload">
-    <input id="btn-upload_srt-visible" type="button" value="Upload a srt file" class="neat">
-  </form>
+<section id="section-workspace" class="container">
+  <div class="jumbotron text-center">
+    <h1>Upload subtitles</h1>
+    <p class="lead">Upload a srt file containing subtitles</p>
+    <p><a id="btn-upload-visible" class="btn btn-lg btn-primary" href="#" role="button">Upload srt file</a></p>
+    <form><input id="btn-upload" type="file" name="file" class="btn-upload"></form>
+  </div>
 </section>
 
 <script>
@@ -33,7 +39,7 @@ $(document).ready(function()
             },
             on_success: get_preview,
             on_error: function(xhr, status, text){
-                render_error("error", xhr.responseText, "Unexpected error")}
+                render_error("msg-error alert alert-danger", xhr.responseText, "Unexpected error")}
         });
     });
 });
